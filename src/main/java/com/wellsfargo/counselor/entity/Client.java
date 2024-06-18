@@ -1,49 +1,54 @@
 package com.wellsfargo.counselor.entity;
 
-
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
-public class Advisor {
+public class Client {
 
     @Id
-    @GeneratedValue()
-    private long advisorId;
-
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long clientId;
+    @ManyToOne
+    @JoinColumn(name="id_adv")
+    private Advisor adv;
     @Column(nullable = false)
     private String firstName;
-
     @Column(nullable = false)
     private String lastName;
-
     @Column(nullable = false)
     private String address;
-
     @Column(nullable = false)
     private String phone;
-
     @Column(nullable = false)
     private String email;
 
-    @OneToMany(mappedBy ="adv")
-    private List<Client> listClients;
-    protected Advisor() {
-
+    public Client() {
     }
 
-    public Advisor(long advisorId, String firstName, String lastName, String address, String phone, String email, List<Client> listClients) {
-        this.advisorId = advisorId;
+    public Client(Long clientId, Advisor adv, String firstName, String lastName, String address, String phone, String email) {
+        this.clientId = clientId;
+        this.adv = adv;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.phone = phone;
         this.email = email;
-        this.listClients = listClients;
     }
 
-    public Long getAdvisorId() {
-        return advisorId;
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
+    }
+
+    public Advisor getAdv() {
+        return adv;
+    }
+
+    public void setAdv(Advisor adv) {
+        this.adv = adv;
     }
 
     public String getFirstName() {
@@ -84,13 +89,5 @@ public class Advisor {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public List<Client> getListClients() {
-        return listClients;
-    }
-
-    public void setListClients(List<Client> listClients) {
-        this.listClients = listClients;
     }
 }
